@@ -6,7 +6,8 @@ You are welcome to take on this project, modify the source code as
 you see fit, and use it.
 
 If you encounter any bugs or have ideas for improvements, 
-please feel free to open an issue or submit a pull request.
+please feel free to open an [issue](https://github.com/hieuft/iopolygon/issues) 
+or submit a [pull request](https://github.com/hieuft/iopolygon/pulls).
 
 ## Currently supported test case formats
 
