@@ -60,7 +60,7 @@ THISISSEPARATOR
 it encounters the keyword `THISISSEPARATOR`, and then produce an output 
 identical to the one shown below.
 
-## Current drawbacks:
+## Current drawbacks
 
 1. For problems that require reading input until the end 
 (i.e., until the input stream is exhausted), errors may occur; 
