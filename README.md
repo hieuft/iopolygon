@@ -39,7 +39,7 @@ iopolygon recursively traverses the `./data` directory.
 Whenever it enters a directory, it treats it as a test case folder; 
 if it successfully locates the corresponding input and output files, 
 it adds a new test case—formatted for use with Polygon—to the `./output` 
-directory. The resulting test cases will follow this structure:
+directory. 
 
 ```
 output/
@@ -48,6 +48,26 @@ output/
     ...
     XX
 ```
+
+`01` content:
+```
+<input of testcase>
+THISISSEPARATOR
+<output of testcase>
+```
+
+`solution.cpp` will serve as a mock solution; it will read the input until 
+it encounters the keyword `THISISSEPARATOR`, and then produce an output 
+identical to the one shown below.
+
+## Current drawbacks:
+
+1. For problems that require reading input until the end 
+(i.e., until the input stream is exhausted), errors may occur; 
+if a user's solution reads the entire input, it will also consume 
+the content following the `THISISSEPARATOR` marker.
+2. There is a risk of leaking test cases, so please exercise caution 
+if considering the use of `iopolygon` for a competition.
 
 ## How to use
 
