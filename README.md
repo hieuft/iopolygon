@@ -83,5 +83,10 @@ directory located at the root of the project.
 cargo build
 cargo run
 ```
+
+Input only (no output, and `THISISSEPARATOR` line):
+```
+cargo run -- no-output
+```
 4. The results will be saved in the `./output` directory at the root of 
 the project.

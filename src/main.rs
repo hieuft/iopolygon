@@ -1,3 +1,4 @@
+use std::env;
 use std::fs;
 use std::path::Path;
 
@@ -20,14 +21,18 @@ fn is_output(name: &str) -> bool {
     return name.to_lowercase().contains(".o");
 }
 
-fn write_test(test_index: usize, input: &str, output: &str) -> std::io::Result<()> {
+fn write_test(name: &str, input: &str, output: &str, with_output: bool) -> std::io::Result<()> {
     fs::write(
-        format!("./output/{test_index}"),
-        format!("{input}\nTHISISSEPARATOR\n{output}"),
+        format!("./output/{name}.inp"),
+        if with_output {
+            format!("{input}\nTHISISSEPARATOR\n{output}")
+        } else {
+            String::from(input)
+        },
     )
 }
 
-fn visit_dir(dir: &Path, depth: usize, mut test_index: usize) -> std::io::Result<()> {
+fn visit_dir(name: &str, dir: &Path, depth: usize, with_output: bool) -> std::io::Result<()> {
     if dir.is_dir() {
         let indent = "  ".repeat(depth);
         let mut input: String = String::from("");
@@ -43,9 +48,8 @@ fn visit_dir(dir: &Path, depth: usize, mut test_index: usize) -> std::io::Result
             }
 
             if path.is_dir() {
-                test_index += 1;
-                println!("{indent}{name}/   {test_index}");
-                let _ = visit_dir(&path, depth + 1, test_index);
+                println!("{indent}{name}/   {name}");
+                let _ = visit_dir(&name, &path, depth + 1, with_output);
             } else {
                 if is_input(&name) {
                     input = read_file(&path);
@@ -57,14 +61,21 @@ fn visit_dir(dir: &Path, depth: usize, mut test_index: usize) -> std::io::Result
         }
 
         if input.len() > 0 || output.len() > 0 {
-            let _ = write_test(test_index, &input, &output);
+            let _ = write_test(&name, &input, &output, with_output);
         }
     }
     Ok(())
 }
 
 fn main() -> std::io::Result<()> {
+    let args: Vec<String> = env::args().collect();
+
+    let mut with_output: bool = true;
     let start_path = Path::new("./data");
-    let _ = visit_dir(start_path, 0, 0);
+
+    if args.len() > 1 && &args[1] == "no-output" {
+        with_output = false;
+    }
+    let _ = visit_dir("", start_path, 0, with_output);
     Ok(())
 }
